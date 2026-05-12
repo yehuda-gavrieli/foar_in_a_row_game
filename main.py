@@ -12,7 +12,7 @@ def create_board():
 def print_board(board): 
     print("---b o a r d---")
     for rows in board:
-        print("|" + "|".join(rows) + "|")
+        print("|" + "!".join(rows) + "|")
     print("_" * 15)
 
 print_board(create_board())
