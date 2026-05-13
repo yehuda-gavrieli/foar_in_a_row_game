@@ -1,7 +1,16 @@
 from logic import *
 
 def start_to_play():
-    board = create_board()
+    while True:
+        choice = get_start_choice()
+        if choice == "L":
+            board = load_game()
+            break 
+        elif choice == "N":
+            board = create_board()
+            break # יוצא מהלולאה וממשיך למשחק
+        else:
+            print("Wrong choice! Please press 'N' for New or 'L' for Load.")
     turn = "🔴"
     game_active = True
     while game_active:
@@ -12,7 +21,7 @@ def start_to_play():
             if turn == "🔴":
                 turn = "🔵"
             else:
-                "🔴"
+                turn = "🔴"
             continue
         if choice.lower() == 's':
             game_active = handle_if_user_quit(board)
@@ -21,6 +30,7 @@ def start_to_play():
             if check_if_win(board, turn):
                 print_board(board)
                 print("Player", turn, "win!")
+                save_game(board)
                 game_active = False
             else:
                 if turn == "🔴":

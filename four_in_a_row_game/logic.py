@@ -24,16 +24,13 @@ def get_user_input()-> Tuple:
     user_choice = input("press num between 1-7, or 'S' to save the game and exit: ")
     time_from_start = time.time() - start_time
     return user_choice, time_from_start
-
-def handle_if_user_quit(board:List[List[int]]) -> bool:
-    print("Saving the game")
-    with open("save_game.json", "w") as file:
-        json.dump(board, file)
-    return False
+def handle_if_user_quit(board):
+    save_game(board) 
+    return False 
 
 def make_move(board:List[List[int]], col_num:str, player_color:str) -> bool:
-    if not (col_num.isdigit() or int(col_num) > 7 or int(col_num) < 1):
-        print("not valid input!")
+    if not col_num.isdigit() or int(col_num) > 7 or int(col_num) < 1:
+        print("not valid input , try again!")
         return False
     c = int(col_num) - 1
     for r in range(ROWS - 1, -1, -1):
@@ -52,5 +49,32 @@ def check_if_win(board:List[List[int]], player_color:str) -> bool:
         for c in range(COLS):
             if board[r][c] == player_color and board[r+1][c] == player_color and board[r+2][c] == player_color and board[r+3][c] == player_color:
                 return True
+    for r in range(ROWS - 3):
+        for c in range(COLS - 3):
+            if board[r][c] == player_color and board[r+1][c+1] == player_color and board[r+2][c+2] == player_color and board[r+3][c+3] == player_color:
+                return True
+    for r in range(3, ROWS):
+        for c in range(COLS - 3):
+            if board[r][c] == player_color and board[r-1][c+1] == player_color and board[r-2][c+2] == player_color and board[r-3][c+3] == player_color:
+                return True
     return False
 #winner = check_if_win(board, "🔴")
+
+def load_game() -> List[List[str]]:
+    try:
+        with open("save_game.json", "r", encoding="utf-8") as file:
+            board = json.load(file)
+            print("Game loaded successfully!")
+            return board
+    except FileNotFoundError:
+        print("No saved game found. Starting a new one.")
+        return create_board()
+    
+def get_start_choice():
+    return input("Press 'N' for New Game or 'L' to Load: ").upper()
+
+
+def save_game(board):
+    with open("save_game.json", "w", encoding="utf-8") as file:
+        json.dump(board, file, ensure_ascii=False)
+    print("Game state saved to file.")
