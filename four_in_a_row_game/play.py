@@ -1,17 +1,19 @@
 from logic import *
+import random
 
 def start_to_play():
     while True:
         choice = get_start_choice()
-        if choice == "L":
+        if choice == "load":
             board = load_game()
-            break 
-        elif choice == "N":
+            if board is not None: 
+                break 
+        elif choice == "new":
             board = create_board()
-            break # יוצא מהלולאה וממשיך למשחק
+            break 
         else:
-            print("Wrong choice! Please press 'N' for New or 'L' for Load.")
-    turn = "🔴"
+            print("Wrong choice , try again!")
+    turn = random.choice("🔴" "🔵")
     game_active = True
     while game_active:
         print_board(board)
@@ -30,7 +32,6 @@ def start_to_play():
             if check_if_win(board, turn):
                 print_board(board)
                 print("Player", turn, "win!")
-                save_game(board)
                 game_active = False
             else:
                 if turn == "🔴":
