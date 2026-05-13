@@ -10,7 +10,8 @@ def create_board()-> List[List[int]]:
         row = [" "] * COLS
         board.append(row)
     return board
-#board = create_board()
+board = create_board()
+
 
 def print_board(board:List[List[int]]): 
     print("---b o a r d---")
@@ -24,25 +25,23 @@ def get_user_input()-> Tuple:
     time_from_start = time.time() - start_time
     return user_choice, time_from_start
 
-
 def handle_if_user_quit(board:List[List[int]]) -> bool:
     print("Saving the game")
-    with open("save_game.json", "w") as f:
-        json.dump(board, f)
+    with open("save_game.json", "w") as file:
+        json.dump(board, file)
     return False
 
-def make_move(board:List[List[int]], col_num:str, player:str) -> bool:
-    if not col_num.isdigit() or int(col_num) > 7 or int(col_num) < 1:
+def make_move(board:List[List[int]], col_num:str, player_color:str) -> bool:
+    if not (col_num.isdigit() or int(col_num) > 7 or int(col_num) < 1):
         print("not valid input!")
         return False
     c = int(col_num) - 1
     for r in range(ROWS - 1, -1, -1):
         if board[r][c] == " ":
-            board[r][c] = player
+            board[r][c] = player_color
             return True
     print("Column full!")
     return False
-#successful_move = make_move(board, "3", "red")
 
 def check_if_win(board:List[List[int]], player_color:str) -> bool:
     for r in range(ROWS):
@@ -54,4 +53,4 @@ def check_if_win(board:List[List[int]], player_color:str) -> bool:
             if board[r][c] == player_color and board[r+1][c] == player_color and board[r+2][c] == player_color and board[r+3][c] == player_color:
                 return True
     return False
-#winner = check_if_win(board, "X")
+#winner = check_if_win(board, "🔴")
