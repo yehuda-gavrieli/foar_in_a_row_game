@@ -12,10 +12,10 @@ def save_game(board:List[List[str]]):
     if not os.path.exists(PATH):
         os.makedirs(PATH)
     num_file = len(os.listdir(PATH)) + 1
-    filepath = os.path.join(PATH, f"{num_file}.json")
-    with open(filepath, "w", encoding="utf-8") as file:
+    file_path = os.path.join(PATH, f"{num_file}.json")
+    with open(file_path, "w", encoding="utf-8") as file:
         json.dump(board, file, ensure_ascii=False)     
-    print("game saved to",filepath)
+    print("game saved to",file_path)
 
 
 def load_game() -> List[List[str]]:
@@ -25,10 +25,10 @@ def load_game() -> List[List[str]]:
     files = os.listdir(PATH)
     print(f"choose a game between(0-{len(files)})")
     choice = input("\nEnter the game number: ")
-    filepath = os.path.join(PATH, f"{choice}.json")
+    file_path = os.path.join(PATH, f"{choice}.json")
     
-    if os.path.exists(filepath):
-        with open(filepath, "r", encoding="utf-8") as file:
+    if os.path.exists(file_path):
+        with open(file_path, "r", encoding="utf-8") as file:
             board = json.load(file)
             print("game load successfully!")
             return board

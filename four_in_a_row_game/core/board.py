@@ -11,12 +11,11 @@ def create_board()-> List[List[str]]:
         row = [" "] * COLS
         board.append(row)
     return board
-board = create_board()
 
 def print_board(board:List[List[str]]): 
     print("  ---b o a r d---")
     print("   1 2 3 4 5 6 7 ")
     print("  ---------------")
     for i, rows in enumerate(board):
-        print(i + 1,"|" + "|".join(rows) + "|")
+        print(i + 1,"| " + "  |  ".join(rows) + " |")
     print("  ---------------")

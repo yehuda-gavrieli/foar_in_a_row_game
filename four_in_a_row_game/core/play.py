@@ -6,7 +6,6 @@ from config import PLAYER1,PLAYER2,KEYBOARD_KEY
 import random , msvcrt
 
 
-
 def get_choice_load_or_new():
     while True:
         choice = get_start_choice()
@@ -22,27 +21,26 @@ def get_choice_load_or_new():
 
 def start_to_play():
     board = get_choice_load_or_new()
-    turn = random.choice([PLAYER1 ,PLAYER2])
+    player_turn = random.choice([PLAYER1 ,PLAYER2])
     is_game_active = True
     while is_game_active:
         print_board(board)
-        choice = get_user_input()
-        user_choice = choice[0]
+        user_choice , _ = get_user_input()
         if user_choice == "timeout":
-            print("It's been too long now it's the opponent's turn!")
-            turn = PLAYER2 if turn == PLAYER1 else PLAYER1
+            print("It's been too long now it's the opponent's player_turn!")
+            player_turn = PLAYER2 if player_turn == PLAYER1 else PLAYER1
             continue
         if user_choice == KEYBOARD_KEY:
             is_game_active = handle_if_user_quit(board)
             if not is_game_active:
                 break
             continue
-        elif make_move(board, user_choice, turn):
-            if check_if_win(board, turn):
+        elif make_move(board, user_choice, player_turn):
+            if check_if_win(board, player_turn):
                 print_board(board)
-                print("Player", turn, "win!")
+                print("Player", player_turn, "win!")
                 is_game_active = False
             else:
-                turn = PLAYER2 if turn == PLAYER1 else PLAYER1
+                player_turn = PLAYER2 if player_turn == PLAYER1 else PLAYER1
     while msvcrt.kbhit():
         msvcrt.getch()
